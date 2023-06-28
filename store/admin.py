@@ -2,13 +2,16 @@ from django.contrib import admin
 from . import models
 
 
-# Admin model that represents Product model in admin site
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    # Properties that applied on Admin model
-    list_display = ["title", "unit_price"]
+    list_display = ["title", "unit_price", "inventory_status"]
     list_editable = ["unit_price"]
     list_per_page = 20
+
+    def inventory_status(self, product):
+        if product.inventory < 10:
+            return "Low"
+        return "Ok"
 
 
 @admin.register(models.Collection)
