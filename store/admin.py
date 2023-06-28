@@ -31,6 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ["collection", "last_update", InventoryFilter]
     prepopulated_fields = {"slug": ["title"]}
     autocomplete_fields = ["collection"]
+    search_fields = ["product"]
 
     @admin.display(ordering="inventory")
     def inventory_status(self, product):
@@ -95,12 +96,21 @@ class CustomerAdmin(admin.ModelAdmin):
         return super().get_queryset(request).annotate(orders=Count("order"))
 
 
+class OrderItemInline(admin.TabularInline):
+    model = models.OrderItem
+    autocomplete_fields = ["product"]
+    exta = 0
+    min_num = 1
+    max_num = 1
+
+
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ["id", "customer_name", "placed_at", "payment_status"]
     list_select_related = ["customer"]
     list_per_page = 20
     autocomplete_fields = ["customer"]
+    inlines = [OrderItemInline]
 
     @admin.display(ordering="customer__first_name")
     def customer_name(self, order):
