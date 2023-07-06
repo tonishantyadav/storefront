@@ -7,7 +7,7 @@ from . import models, serializers
 
 @api_view()
 def product_list(request):
-    products = models.Product.objects.all()
+    products = models.Product.objects.select_related("collection")
     serializer = serializers.ProductSerializer(products, many=True)
     return Response(data=serializer.data)
 
