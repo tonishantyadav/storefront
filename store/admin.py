@@ -1,4 +1,5 @@
 from typing import Any, List, Optional, Tuple
+
 from django.contrib import admin, messages
 from django.db.models import Count
 from django.db.models.query import QuerySet
