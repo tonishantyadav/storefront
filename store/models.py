@@ -28,7 +28,9 @@ class Product(models.Model):
     )
     inventory = models.IntegerField(validators=[MinValueValidator(1)])
     last_update = models.DateTimeField(auto_now=True)
-    collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
+    collection = models.ForeignKey(
+        Collection, on_delete=models.PROTECT, related_name="products"
+    )
     slug = models.SlugField()
     promotions = models.ManyToManyField(Promotion, blank=True)
 
@@ -96,7 +98,9 @@ class Address(models.Model):
 class OrderItem(models.Model):
     quantity = models.PositiveSmallIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name="orderitems")
+    product = models.ForeignKey(
+        Product, on_delete=models.PROTECT, related_name="orderitems"
+    )
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
 
 
