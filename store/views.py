@@ -1,5 +1,4 @@
 from django.db.models import Count
-from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
@@ -24,3 +23,13 @@ class CollectionViewSet(viewsets.ModelViewSet):
         if models.Product.objects.filter(collection=kwargs["pk"]).count() > 0:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().destroy(request, *args, **kwargs)
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.ReviewSerializer
+
+    def get_queryset(self):
+        return models.Review.objects.filter(product_id=self.kwargs["product_pk"])
+
+    def get_serializer_context(self):
+        return {"product_id": self.kwargs["product_pk"]}
