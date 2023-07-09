@@ -46,17 +46,21 @@ class CartViewSet(
     mixins.RetrieveModelMixin,
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
-):  
-    # pre-load items and product data
+):
     queryset = models.Cart.objects.prefetch_related("items__product").all()
     serializer_class = serializers.CartSerializer
 
 
 class CartItemViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.CartItemSerializer
-
-    # pre-load product data
     def get_queryset(self):
         return models.CartItem.objects.filter(
             cart_id=self.kwargs.get("cart_pk")
         ).select_related("product")
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return serializers.AddCartItemSerialzier
+        return serializers.CartItemSerializer
+
+    def get_serializer_context(self):
+        return {"cart_id": self.kwargs.get("cart_pk")}
