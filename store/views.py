@@ -6,8 +6,15 @@ from . import models, serializers
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = models.Product.objects.all()
     serializer_class = serializers.ProductSerializer
+
+    def get_queryset(self):
+        queryset = models.Product.objects.all()
+        collection_id = self.request.query_params.get("collection_id")
+
+        if collection_id is not None:
+            queryset = models.Product.objects.filter(collection_id=collection_id)
+        return queryset
 
     def destroy(self, request, *args, **kwargs):
         if models.OrderItem.objects.filter(product_id=kwargs["pk"]).count() > 0:
