@@ -96,6 +96,9 @@ class Order(models.Model):
         Customer, on_delete=models.PROTECT, related_name="order"
     )
 
+    class Meta:
+        permissions = [("cancel_order", "Can cancel order")]
+
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
