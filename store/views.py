@@ -2,7 +2,7 @@ from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 from . import filters, models, serializers
 
@@ -10,9 +10,10 @@ from . import filters, models, serializers
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = models.Product.objects.all()
     serializer_class = serializers.ProductSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = filters.ProductFilter
     search_fields = ["title", "description"]
+    ordering_fields = ["unit_price", "last_update"]
 
     def destroy(self, request, *args, **kwargs):
         if models.OrderItem.objects.filter(product_id=kwargs["pk"]).count() > 0:
