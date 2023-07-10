@@ -1,11 +1,13 @@
 from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import mixins, status, viewsets, permissions
+from rest_framework import mixins
+from rest_framework import permissions as BasePermissions
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 
-from . import filters, models, serializers
+from . import filters, models, permissions, serializers
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -15,6 +17,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     filterset_class = filters.ProductFilter
     search_fields = ["title", "description"]
     ordering_fields = ["unit_price", "last_update"]
+
+    def get_permissions(self):
+        if self.request.method == "POST" or self.request.method == "PUT":
+            return [permissions.IsAdminOrReadOnly()]
+        return [BasePermissions.AllowAny()]
 
     def destroy(self, request, *args, **kwargs):
         if models.OrderItem.objects.filter(product_id=kwargs["pk"]).count() > 0:
@@ -84,8 +91,8 @@ class CustomerViewSet(
 
     def get_permissions(self):
         if self.request.method == "GET":
-            return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated()]
+            return [BasePermissions.AllowAny()]
+        return [BasePermissions.IsAuthenticated()]
 
     @action(detail=False, methods=["GET", "PUT"])
     def me(self, request):
