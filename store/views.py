@@ -85,7 +85,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     @action(
         detail=False,
         methods=["GET", "PUT"],
-        permission_classes=BasePermissions.IsAuthenticated,
+        permission_classes=[BasePermissions.IsAuthenticated],
     )
     def me(self, request):
         customer, created = models.Customer.objects.get_or_create(
