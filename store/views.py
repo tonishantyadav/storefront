@@ -17,11 +17,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     filterset_class = filters.ProductFilter
     search_fields = ["title", "description"]
     ordering_fields = ["unit_price", "last_update"]
-
-    def get_permissions(self):
-        if self.request.method == "POST" or self.request.method == "PUT":
-            return [permissions.IsAdminOrReadOnly()]
-        return [BasePermissions.AllowAny()]
+    permission_classes = [permissions.IsAdminOrReadOnly]
 
     def destroy(self, request, *args, **kwargs):
         if models.OrderItem.objects.filter(product_id=kwargs["pk"]).count() > 0:
@@ -32,6 +28,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CollectionViewSet(viewsets.ModelViewSet):
     queryset = models.Collection.objects.annotate(products_count=Count("products"))
     serializer_class = serializers.CollectionSerializer
+    permission_classes = [permissions.IsAdminOrReadOnly]
 
     def destroy(self, request, *args, **kwargs):
         if models.Product.objects.filter(collection=kwargs["pk"]).count() > 0:
@@ -80,21 +77,16 @@ class CartItemViewSet(viewsets.ModelViewSet):
         }
 
 
-class CustomerViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    viewsets.GenericViewSet,
-):
+class CustomerViewSet(viewsets.ModelViewSet):
     queryset = models.Customer.objects.all()
     serializer_class = serializers.CustomerSerializer
+    permission_classes = [BasePermissions.IsAdminUser]
 
-    def get_permissions(self):
-        if self.request.method == "GET":
-            return [BasePermissions.AllowAny()]
-        return [BasePermissions.IsAuthenticated()]
-
-    @action(detail=False, methods=["GET", "PUT"])
+    @action(
+        detail=False,
+        methods=["GET", "PUT"],
+        permission_classes=BasePermissions.IsAuthenticated,
+    )
     def me(self, request):
         customer, created = models.Customer.objects.get_or_create(
             user_id=self.request.user.id
