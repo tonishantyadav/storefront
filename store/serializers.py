@@ -1,5 +1,6 @@
 from decimal import Decimal
-
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from . import models, utils
@@ -103,3 +104,12 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Cart
         fields = ["id", "items", "total_price"]
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField()
+    birth_date = serializers.DateField()
+
+    class Meta:
+        model = models.Customer
+        fields = ["id", "user_id", "phone", "birth_date", "membership"]
