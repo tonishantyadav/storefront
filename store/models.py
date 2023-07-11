@@ -78,6 +78,14 @@ class Customer(models.Model):
         ordering = ["user__first_name", "user__last_name"]
 
 
+class Address(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    customer = models.OneToOneField(
+        Customer, on_delete=models.CASCADE, primary_key=True
+    )
+
+
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = "P"
     PAYMENT_STATUS_Complete = "C"
@@ -100,21 +108,13 @@ class Order(models.Model):
         permissions = [("cancel_order", "Can cancel order")]
 
 
-class Address(models.Model):
-    street = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    customer = models.OneToOneField(
-        Customer, on_delete=models.CASCADE, primary_key=True
-    )
-
-
 class OrderItem(models.Model):
     quantity = models.PositiveSmallIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     product = models.ForeignKey(
         Product, on_delete=models.PROTECT, related_name="orderitems"
     )
-    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name="items")
 
 
 class Cart(models.Model):
