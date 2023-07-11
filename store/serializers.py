@@ -1,9 +1,11 @@
 from decimal import Decimal
-from django.db import transaction
+
 from django.contrib.auth import get_user_model
+from django.db import transaction
 from rest_framework import serializers
 
-from . import models, utils, signals
+from . import models, utils
+from .signals import order_created
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -164,6 +166,7 @@ class CreateOrderSerializer(serializers.Serializer):
 
             models.OrderItem.objects.bulk_create(order_items)
             models.Cart.objects.filter(pk=cart_id).delete()
+            order_created.send_robust(self.__class__, order=order)
             return order
 
 

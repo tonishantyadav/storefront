@@ -88,9 +88,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
         permission_classes=[BasePermissions.IsAuthenticated],
     )
     def me(self, request):
-        customer = models.Customer.objects.get(
-            user_id=self.request.user.id
-        )
+        customer = models.Customer.objects.get(user_id=self.request.user.id)
         if request.method == "GET":
             serializer = serializers.CustomerSerializer(customer)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -102,7 +100,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    http_method_names = ["get", "patch", "delete", "head", "options"]
+    http_method_names = ["get", "post", "patch", "delete", "head", "options"]
 
     def get_permissions(self):
         if self.request.method in ["PATCH", "DELETE"]:
@@ -118,9 +116,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        (customer_id, create) = models.Customer.objects.only("pk").get(
-            user_id=user.id
-        )
+        customer_id = models.Customer.objects.only("pk").get(user_id=user.id)
         if user.is_staff:
             return models.Order.objects.prefetch_related("items__product").all()
         return models.Order.objects.prefetch_related("items__product").filter(
