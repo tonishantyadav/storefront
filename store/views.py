@@ -102,7 +102,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    http_method_names = ["get", "patch", "delete"]
+    http_method_names = ["get", "patch", "delete", "head", "options"]
 
     def get_permissions(self):
         if self.request.method in ["PATCH", "DELETE"]:
@@ -112,6 +112,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == "POST":
             return serializers.CreateOrderSerializer
+        elif self.request.method == "PATCH":
+            return serializers.UpdateOrderSerializer
         return serializers.OrderSerializer
 
     def get_queryset(self):
