@@ -102,12 +102,19 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.OrderSerializer
     permission_classes = [BasePermissions.IsAuthenticated]
+
+    def get_serializer_context(self):
+        return {"user_id": self.request.user.id}
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return serializers.CreateOrderSerializer
+        return serializers.OrderSerializer
 
     def get_queryset(self):
         user = self.request.user
-        customer_id, create = models.Customer.objects.only("pk").get_or_create(
+        (customer_id, create) = models.Customer.objects.only("pk").get_or_create(
             user_id=user.id
         )
         if user.is_staff:
