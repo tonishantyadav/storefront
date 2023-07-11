@@ -102,5 +102,16 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = models.Order.objects.all()
     serializer_class = serializers.OrderSerializer
+    permission_classes = [BasePermissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        customer_id, create = models.Customer.objects.only("pk").get_or_create(
+            user_id=user.id
+        )
+        if user.is_staff:
+            return models.Order.objects.prefetch_related("items__product").all()
+        return models.Order.objects.prefetch_related("items__product").filter(
+            customer_id=customer_id
+        )
