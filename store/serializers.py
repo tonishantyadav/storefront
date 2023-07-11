@@ -3,7 +3,7 @@ from django.db import transaction
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from . import models, utils
+from . import models, utils, signals
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -145,7 +145,7 @@ class CreateOrderSerializer(serializers.Serializer):
         with transaction.atomic():
             user_id = self.context["user_id"]
             cart_id = self.validated_data["cart_id"]
-            (customer, created) = models.Customer.objects.get_or_create(user_id=user_id)
+            customer = models.Customer.objects.get(user_id=user_id)
             order = models.Order.objects.create(customer=customer)
 
             cart_items = models.CartItem.objects.select_related("product").filter(

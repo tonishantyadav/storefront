@@ -88,7 +88,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
         permission_classes=[BasePermissions.IsAuthenticated],
     )
     def me(self, request):
-        customer, created = models.Customer.objects.get_or_create(
+        customer = models.Customer.objects.get(
             user_id=self.request.user.id
         )
         if request.method == "GET":
@@ -118,7 +118,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        (customer_id, create) = models.Customer.objects.only("pk").get_or_create(
+        (customer_id, create) = models.Customer.objects.only("pk").get(
             user_id=user.id
         )
         if user.is_staff:
