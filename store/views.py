@@ -102,7 +102,12 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    permission_classes = [BasePermissions.IsAuthenticated]
+    http_method_names = ["get", "patch", "delete"]
+
+    def get_permissions(self):
+        if self.request.method in ["PATCH", "DELETE"]:
+            return [BasePermissions.IsAdminUser()]
+        return [BasePermissions.IsAuthenticated()]
 
     def get_serializer_class(self):
         if self.request.method == "POST":
