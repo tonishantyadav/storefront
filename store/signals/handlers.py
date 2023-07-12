@@ -8,5 +8,4 @@ from .. import models
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_customer_for_new_user(sender, **kwargs):
     if kwargs["created"]:
-        models.Customer.objects.create(kwargs["instance"])
-    
+        models.Customer.objects.create(user=kwargs["instance"])
