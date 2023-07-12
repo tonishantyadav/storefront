@@ -1,15 +1,27 @@
 from decimal import Decimal
 
-from django.contrib.auth import get_user_model
 from django.db import transaction
 from rest_framework import serializers
 
-from . import models, utils
+from . import models
 from .signals import order_created
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        product_id = self.context["product_id"]
+        return models.ProductImage.objects.create(
+            product_id=product_id, **validated_data
+        )
+
+    class Meta:
+        model = models.ProductImage
+        fields = ["id", "image"]
 
 
 class ProductSerializer(serializers.ModelSerializer):
     price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
+    images = ProductImageSerializer(many=True, read_only=True)
 
     def calculate_tax(self, product: models.Product):
         return product.unit_price * Decimal(1.1)
@@ -25,7 +37,14 @@ class ProductSerializer(serializers.ModelSerializer):
             "unit_price",
             "price_with_tax",
             "collection",
+            "images",
         ]
+
+
+class SimpleProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Product
+        fields = ["id", "title", "unit_price"]
 
 
 class CollectionSerializer(serializers.ModelSerializer):
@@ -47,7 +66,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-    product = utils.SimpleProductSerializer()
+    product = SimpleProductSerializer()
     total_price = serializers.SerializerMethodField()
 
     def get_total_price(self, item: models.CartItem):
@@ -118,7 +137,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product = utils.SimpleProductSerializer()
+    product = SimpleProductSerializer()
 
     class Meta:
         model = models.OrderItem

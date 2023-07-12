@@ -11,7 +11,7 @@ from . import filters, models, permissions, serializers
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = models.Product.objects.all()
+    queryset = models.Product.objects.prefetch_related("images").all()
     serializer_class = serializers.ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = filters.ProductFilter
@@ -23,6 +23,16 @@ class ProductViewSet(viewsets.ModelViewSet):
         if models.OrderItem.objects.filter(product_id=kwargs["pk"]).count() > 0:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().destroy(request, *args, **kwargs)
+
+
+class ProduImageViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.ProductImageSerializer
+
+    def get_serializer_context(self):
+        return {"product_id": self.kwargs["product_pk"]}
+
+    def get_queryset(self):
+        return models.ProductImage.objects.filter(product_id=self.kwargs["product_pk"])
 
 
 class CollectionViewSet(viewsets.ModelViewSet):
