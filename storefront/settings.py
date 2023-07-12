@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework",
     "djoser",
+    "corsheaders",
     "store",
     "tags",
     "likes",
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -144,6 +146,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 INTERNAL_IPS = [
     "127.0.0.1",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
 AUTH_USER_MODEL = "core.User"
