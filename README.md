@@ -1,7 +1,7 @@
 
 # Storefront
 
-Storefront is a robust and scalable **REST API** project built using **Django** and **Django Rest Framework (DRF)**. It provides a comprehensive solution for managing store data, allowing developers to easily create, retrieve, update, and delete store-related information.
+Storefront is a robust and scalable **REST API** project built using **Django** and **Django Rest Framework (DRF)**. It provides a comprehensive solution for managing store data, allowing users to easily create, retrieve, update, and delete store-related information.
 
 ## Install and Run Locally
 
