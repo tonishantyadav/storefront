@@ -148,10 +148,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "localhost:5173",
-    "http://127.0.0.1:5173",
-]
+# Mention the allowed hosts
+# CORS_ALLOWED_ORIGINS = []
 
 AUTH_USER_MODEL = "core.User"
 
@@ -176,3 +174,5 @@ DJOSER = {
         "current_user": "core.serializers.UserSerializer",
     }
 }
+
+CELERY_BROKER_URL = "redis://localhost:6379/1"
