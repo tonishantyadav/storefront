@@ -25,5 +25,12 @@ class TestCreateCollection:
         response = client.post("/store/collections/", {"title": ""})
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
-
         assert response.data["title"] is not None
+
+    def test_if_data_is_valid_returns_201(self):
+        client = APIClient()
+        client.force_authenticate(user=User(is_staff=True))
+        response = client.post("/store/collections/", {"title": "a"})
+
+        assert response.status_code == status.HTTP_201_CREATED
+        assert response.data["id"] > 0
