@@ -1,5 +1,4 @@
 import pytest
-from django.contrib.auth.models import User
 from rest_framework import status
 from model_bakery import baker
 
@@ -38,6 +37,7 @@ class TestCreateCollection:
         response = create_collection({"title": "a"})
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data["id"] > 0
+
 
 @pytest.mark.django_db
 class TestRetriveCollection:
