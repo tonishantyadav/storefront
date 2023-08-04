@@ -150,14 +150,14 @@ INTERNAL_IPS = [
 ]
 
 # Mention the allowed hosts
-# CORS_ALLOWED_ORIGINS = []
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:5173", "http://localhost:5173"]
 
 AUTH_USER_MODEL = "core.User"
 
 REST_FRAMEWORK = {
     "COERCE_DECIMAL_TO_STRING": False,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 10,
+    "PAGE_SIZE": 100,
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
