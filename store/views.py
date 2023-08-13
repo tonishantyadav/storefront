@@ -92,6 +92,11 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CustomerSerializer
     permission_classes = [BasePermissions.IsAdminUser]
 
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return serializers.SimpleCustomerSerializer
+        return serializers.CustomerSerializer
+
     @action(
         detail=False,
         methods=["GET", "PUT"],
