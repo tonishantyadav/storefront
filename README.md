@@ -55,7 +55,7 @@ python manage.py runserver
 
 ## Getting Started
 - Access the API at [http://localhost:8000/store/](http://localhost:8000/store/)
-- Check this [ENDPOINT](ENDPOINT.md) file for available endpoints.
+- Check this [ENDPOINTS](ENDPOINTS.md) file for available endpoints.
 
 
 ## Contributing
