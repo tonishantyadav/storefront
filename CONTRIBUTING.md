@@ -12,6 +12,6 @@ We welcome contributions to improve Strorefront. Please follow these simple guid
 
 5. **Code Style**: Follow the coding style and conventions used in the project.
 
-6. **License**: By contributing, you agree that your contributions will be licensed under the project's [MIT License](LICENSE).
+6. **License**: By contributing, you agree that your contributions will be licensed under the project's [MIT License](./LICENSE).
 
 Thank you for contributing to Storefront!
