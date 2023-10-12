@@ -16,57 +16,56 @@ Storefront is a REST API project developed using Django and Django Rest Framewor
 
 Before getting started, make sure you have the following installed:
 
-- Python 3.x
-- Virtual Environment
+- Python (3.9, 3.10, 3.11)
 
-### Setup Virtual Environment
+### Install Package Manager
 
 ```bash
-# For Windows
-python -m venv storefront-env
-
-# For Unix/Mac
-python3 -m venv storefront-env
-```
-### Activate Virtual Environment
-```bash
-# For Windows
-storefront-env\Scripts\activate.bat
-
-# For Unix/Mac
-source storefront-env/bin/activate
+# For Unix/Mac or Windows
+pip install pipenv
 ```
 
 ### Clone the Project and Navigate to the Directory
+
 ```bash
 git clone https://github.com/tonishantyadav/Storefront.git
 cd storefront
 ```
 
-### Install Dependencies
+### Activate Virtual Environment
+
 ```bash
-pip install -r requirements.txt
+# For Unix/Mac or Windows
+pipenv shell
+```
+
+### Install Dependencies
+
+```bash
+pipenv install
 ```
 
 ### Start the Server
+
 ```bash
 python manage.py runserver
 ```
 
 ## Getting Started
+
 - Access the API at [http://localhost:8000/store/](http://localhost:8000/store/)
 - Check this [ENDPOINTS](ENDPOINTS.md) file for available endpoints.
 
-
 ## Contributing
+
 We welcome contributions! If you'd like to contribute to this project, please follow our [Contribution Guidelines](CONTRIBUTING.md).
 
-
 ## License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
-For any questions or feedback, please contact me at [inishantyadav24@gmail.com](mailto:inishantyadav24@gmail.com). 
+For any questions or feedback, please contact me at [inishantyadav24@gmail.com](mailto:inishantyadav24@gmail.com).
 
 I hope you find Storefront useful for your store management needs. Happy coding!
