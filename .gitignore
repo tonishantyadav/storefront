@@ -1,4 +1,14 @@
+# DLL files
 *.pyc
-/media/
+
+# Static files
 /static/
+
+# Media files
+/media/
+
+# VS code settings
+.vscode/
+
+# Others
 /playground/
