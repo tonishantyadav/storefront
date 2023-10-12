@@ -1,14 +1,20 @@
-# DLL files
-*.pyc
+# Ignore Python byte code files
+__pycache__/
 
-# Static files
-/static/
+# Ignore database files
+*.sqlite3
 
-# Media files
+# Ignore media files (usually user-uploaded content)
 /media/
 
-# VS code settings
-.vscode/
+# Ignore environment-specific settings
+*.env
 
-# Others
+# Ignore Python virtual environment folder
+venv/
+
+# Ignore the playground folder
 playground/
+
+# Ignore Visual Studio Code settings
+.vscode/
