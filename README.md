@@ -16,7 +16,7 @@ Storefront is a REST API project developed using Django and Django Rest Framewor
 
 Before getting started, make sure you have the following installed:
 
-- Python (3.9, 3.10, 3.11)
+- Python (3.9, 3.10)
 
 ### Install Package Manager
 
