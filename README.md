@@ -2,7 +2,7 @@
 
 Storefront is a REST API project developed using Django and Django Rest Framework (DRF). It provides a comprehensive solution for efficiently managing e-store data, enabling users to seamlessly create, retrieve, update, and delete store-related information. Designed for web and mobile applications, Storefront streamlines e-commerce data management, ensuring robust and scalable operations.
 
-## Table of Contents
+## Contents
 
 - [Installation](#installation)
 - [Getting Started](#getting-started)
