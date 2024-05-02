@@ -45,9 +45,6 @@ INSTALLED_APPS = [
     "djoser",
     "corsheaders",
     "store",
-    "tags",
-    "likes",
-    "playground",
     "core",
 ]
 
